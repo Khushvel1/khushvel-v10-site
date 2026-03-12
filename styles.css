@@ -1,0 +1,299 @@
+/* Root Variables - Strategic Palette */
+:root {
+    --primary: #000000;
+    --secondary: #333333;
+    --accent: #0070f3; /* Vercel Blue for trust */
+    --background: #ffffff;
+    --surface: #f9f9f9;
+    --text-main: #111111;
+    --text-muted: #666666;
+    --border: #eaeaea;
+    --container-width: 1100px;
+    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-stack);
+    line-height: 1.6;
+    color: var(--text-main);
+    background-color: var(--background);
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Typography */
+h1, h2, h3 {
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+h1 { font-size: 3.5rem; margin-bottom: 1.5rem; }
+h2 { font-size: 2.5rem; margin-bottom: 2rem; border-bottom: 2px solid var(--primary); display: inline-block; padding-bottom: 0.5rem; }
+h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+
+p { margin-bottom: 1rem; font-size: 1.1rem; }
+.subtitle { color: var(--text-muted); font-size: 1.25rem; margin-top: -1.5rem; margin-bottom: 3rem; }
+
+/* Navigation */
+header {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav ul a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+nav ul a:hover { color: var(--accent); }
+
+/* Sections */
+section { padding: 8rem 0; }
+
+/* Hero */
+.hero {
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #fff 0%, #f1f1f1 100%);
+    text-align: left;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.tagline {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 3rem;
+}
+
+.cta-group { display: flex; gap: 1rem; }
+
+/* Buttons */
+.cta-btn {
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.2s, background 0.2s;
+    display: inline-block;
+}
+
+.cta-btn.primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.cta-btn.secondary {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.cta-btn:hover { transform: translateY(-3px); }
+.cta-btn.primary:hover { background: #333; }
+
+/* V10 OS Grid */
+.os-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.os-card {
+    background: var(--surface);
+    padding: 3rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: border-color 0.3s;
+}
+
+.os-card:hover { border-color: var(--accent); }
+
+.os-card ul {
+    list-style: none;
+    margin-top: 1.5rem;
+}
+
+.os-card li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.os-card li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+}
+
+/* Playbook */
+.playbook { background: var(--primary); color: #fff; }
+.playbook h2 { border-color: #fff; }
+.playbook blockquote {
+    font-size: 2.5rem;
+    font-weight: 800;
+    font-style: italic;
+    margin: 2rem 0;
+    border-left: 10px solid var(--accent);
+    padding-left: 2rem;
+    line-height: 1.2;
+}
+
+.inline-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 1px solid var(--accent);
+}
+
+/* Projects */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+}
+
+.project-card {
+    border: 1px solid var(--border);
+    padding: 3rem;
+    border-radius: 12px;
+}
+
+.repo-tag {
+    background: #000;
+    color: #fff;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.project-card a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 2rem;
+    display: inline-block;
+}
+
+/* The Gate Form */
+.gate-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 4rem;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+    border-radius: 15px;
+}
+
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; font-weight: 700; margin-bottom: 0.5rem; }
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+/* Interference */
+.interference {
+    padding: 4rem 0;
+    text-align: center;
+    background: #f1f1f1;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Footer */
+footer {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-muted);
+}
+
+/* Chatbot Trigger */
+.chatbot-trigger {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--primary);
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+    h1 { font-size: 2.5rem; }
+    .os-grid, .project-grid { grid-template-columns: 1fr; }
+    .hero { height: auto; padding: 10rem 0; }
+    .gate-form { padding: 2rem; }
+}
