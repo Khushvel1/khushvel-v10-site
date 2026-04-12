@@ -1,0 +1,8 @@
+{
+  "name": "khushvel-v10-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Building V10 and Fintech Portfolio...' && (cd fintech-portfolio && npm install && npm run build)"
+  }
+}

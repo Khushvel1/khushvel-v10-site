@@ -159,6 +159,47 @@ document.addEventListener('DOMContentLoaded', () => {
         return "Inquiry noted. Strategic alignment required for deeper data access. Consult the V10 OS for further logic.";
     };
 
+    // 8. Alignment Gate Form Submission
+    const alignmentForm = document.getElementById('alignment-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    if (alignmentForm) {
+        alignmentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = {
+                arr: document.getElementById('arr').value,
+                acv: document.getElementById('acv').value,
+                goal: document.getElementById('goal').value,
+            };
+
+            submitBtn.textContent = "VERIFYING ALIGNMENT...";
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    submitBtn.textContent = data.message;
+                    submitBtn.style.background = "#0070f3";
+                    alignmentForm.reset();
+                } else {
+                    submitBtn.textContent = "ALIGNMENT FAILED. RE-INITIALIZING...";
+                    submitBtn.disabled = false;
+                }
+            } catch (err) {
+                console.error('Contact Form Error:', err);
+                submitBtn.textContent = "SYSTEM ERROR. RETRY LATER.";
+                submitBtn.disabled = false;
+            }
+        });
+    }
+
     closeBot.addEventListener('click', () => {
         bot.classList.toggle('minimized');
     });
