@@ -1,18 +1,22 @@
 {
   "version": 2,
   "name": "khushvel-v10-monorepo",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "."
+      }
+    },
+    {
+      "src": "api/contact.js",
+      "use": "@vercel/node"
+    }
+  ],
   "rewrites": [
     { "source": "/api/contact", "destination": "/api/contact.js" },
     { "source": "/portfolio/(.*)", "destination": "/fintech-portfolio/build/$1" },
     { "source": "/portfolio", "destination": "/fintech-portfolio/build/index.html" }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "index, follow" },
-        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
-      ]
-    }
   ]
 }
