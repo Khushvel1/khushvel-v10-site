@@ -15,20 +15,17 @@ module.exports = async (req, res) => {
   }
 
   // LOGIC: Filter for "Strategic Alignment"
-  // Example: High ARR threshold or specific keywords
   const isHighStakes = arr && (arr.includes('M') || parseInt(arr) > 1000000);
 
-  // In a real scenario, you'd use a service like SendGrid, Mailgun, or a Discord Webhook here.
-  // Example for a Discord Webhook (set via Vercel Environment Variables):
+  // --- 1. DISCORD NOTIFICATION ---
   const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK_URL;
-  
   if (DISCORD_WEBHOOK) {
     try {
       await fetch(DISCORD_WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          content: `🚀 **New Alignment Inquiry Received**\n\n**Name/Email:** ${name || 'N/A'} (${email || 'N/A'})\n**ARR:** ${arr}\n**ACV:** ${acv}\n**Goal:** ${goal}\n**High Stakes?** ${isHighStakes ? '✅ YES' : '❌ NO'}`,
+          content: `🚀 **New Alignment Inquiry Received**\n\n**Source:** ${name || 'General'}\n**Contact:** ${email || 'N/A'}\n**ARR:** ${arr}\n**ACV:** ${acv || 'N/A'}\n**Goal:** ${goal}\n**High Stakes?** ${isHighStakes ? '✅ YES' : '❌ NO'}`,
         }),
       });
     } catch (err) {
@@ -36,8 +33,35 @@ module.exports = async (req, res) => {
     }
   }
 
-  // For now, return success and log for debugging in Vercel console
-  console.log(`Alignment Inquiry Received: ${JSON.stringify(req.body)}`);
+  // --- 2. RESEND EMAIL NOTIFICATION ---
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  if (RESEND_API_KEY) {
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Acme <onboarding@resend.dev>', // Update this after domain verification
+          to: ['hello@khushvel.com'],
+          subject: `Strategic Alignment Inquiry: ${name || 'New Lead'}`,
+          html: `
+            <h1>New Strategic Inquiry</h1>
+            <p><strong>Source:</strong> ${name || 'N/A'}</p>
+            <p><strong>Email:</strong> ${email || 'N/A'}</p>
+            <p><strong>ARR/Scale:</strong> ${arr}</p>
+            <p><strong>Goal:</strong> ${goal}</p>
+            <hr />
+            <p><em>Inquiry filtered via V10 Alignment Gate.</em></p>
+          `,
+        }),
+      });
+    } catch (err) {
+      console.error('Failed to send email via Resend:', err);
+    }
+  }
 
   return res.status(200).json({
     success: true,
