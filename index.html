@@ -75,14 +75,14 @@
                 <div class="os-card" style="grid-column: span 3; background: var(--surface-alt);">
                     <span class="eyebrow">The Architect</span>
                     <h2>I build systems where complexity decays and revenue compounds.</h2>
-                    <p>My work exists at the intersection of **Financial Logic**, **Strategic Research**, and **Autonomous Infrastructure**. I specialize in the **£4M → £20M+ ARR inflection point**—the stage where manual processes break and systems-thinking becomes the only defense.</p>
-                    <p>With a background in **Equity Strategies** and **Operations**, I don't just build software; I architect the **Revenue Logic** of an organization. I view every technical implementation through the lens of **Moat Density** and **Decision-Risk Management**.</p>
-                    <p>If you are scaling a B2B SaaS platform, you aren't looking for a developer. You are looking for a **Strategic Integrator** to install the **V10 OS**.</p>
+                    <p>Not RevOps optimization — full-system revenue architecture. At £4M–£20M ARR, adding headcount is rarely the constraint. System design is.</p>
+                    <p>With a background in **Equity Strategies** and **Operations**, I operate at the intersection of **Financial Logic**, **Strategic Research**, and **Autonomous Infrastructure**.</p>
+                    <p>I don't just build software; I architect the **Revenue Logic** of an organization. Every technical implementation is viewed through the lens of **Moat Density** and **Decision-Risk Management**.</p>
                 </div>
                 <div class="os-card" style="grid-column: span 1;">
                     <span class="eyebrow">The Mission</span>
-                    <h3>£20M ARR</h3>
-                    <p>Transforming high-growth B2B SaaS into valuation-engineered market leaders via **Moat-Compounding Systems**.</p>
+                    <h3>£20M+ ARR</h3>
+                    <p>Transforming B2B SaaS into valuation-engineered market leaders via **Moat-Compounding Systems**.</p>
                 </div>
             </div>
         </section>
@@ -256,17 +256,20 @@
         <!-- OpenClaw AI Interface -->
         <div id="openclaw-bot" class="openclaw-bot">
             <div class="bot-header">
-                <span>OPENCLAW // v1.0.4 // LOGIC-ENGINE</span>
+                <span>OPENCLAW // v2.1 // LOGIC-ENGINE</span>
                 <button id="close-bot">_</button>
             </div>
+            <div class="bot-status-panel">
+                <div>SYSTEM STATUS: <span id="oc-state" class="status-val">IDLE</span></div>
+                <div>ALIGNMENT: <span id="oc-alignment" class="status-val">UNVERIFIED</span></div>
+                <div>DATA ACCESS: <span id="oc-access" class="status-val">RESTRICTED</span></div>
+            </div>
             <div id="bot-messages" class="bot-messages">
-                <div class="bot-msg">SYSTEM: INITIALIZING OPENCLAW CORE...</div>
-                <div class="bot-msg">SYSTEM: READY. STATUS: ALIGNED.</div>
-                <div class="bot-msg">OPENCLAW: Strategic inquiry initialized. How can I assist with your ARR or Moat strategy?</div>
+                <div class="bot-msg system-msg">SYSTEM: AWAITING INPUT.</div>
             </div>
             <div class="bot-input-area">
                 <span class="prompt">></span>
-                <input type="text" id="bot-input" placeholder="INQUIRY..." autocomplete="off">
+                <input type="text" id="bot-input" placeholder="INPUT REQUIRED..." autocomplete="off">
             </div>
         </div>
 

@@ -100,12 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. Logic Log Content Rotation
     const logContent = document.getElementById('log-content');
     const logEntries = [
-        { tag: 'Revenue Logic', text: 'NRR is a lagging indicator of product-market fit. Expansion triggers are the leading indicator.' },
-        { tag: 'Moat Engineering', text: 'Moat Density = Data Exclusivity + Integration Depth + Workflow Embed Score.' },
-        { tag: 'Systems Architecture', text: 'Structure beats speed in high-ambiguity domains. Clarity at the beginning saves time at the end.' },
+        { tag: 'Revenue Logic', text: 'Most NRR problems are created at the point of sale—not post-sale.' },
+        { tag: 'Moat Engineering', text: 'Moat Density = the degree to which revenue, product, and operations reinforce each other.' },
+        { tag: 'Systems Architecture', text: 'At £4M–£20M ARR, headcount is rarely the constraint. System design is.' },
         { tag: 'Hiring Playbook', text: 'Hiring is not a talent search; it is a decision-risk management problem.' },
-        { tag: 'Enterprise GTM', text: 'Reduced enterprise sales cycle from 180 to 85 days via procurement compression.' },
-        { tag: 'AI Infrastructure', text: 'Autonomous AI infrastructure is the bridge between raw models and revenue-generating workflows.' }
+        { tag: 'Enterprise GTM', text: 'If your CRM doesn’t encode decision structure, it’s just a logging tool.' },
+        { tag: 'AI Infrastructure', text: 'Autonomous infrastructure is the bridge between raw models and revenue-generating workflows.' }
     ];
 
     let logIndex = 0;
@@ -123,41 +123,96 @@ document.addEventListener('DOMContentLoaded', () => {
             logContent.style.opacity = '1';
         }, 500);
     };
-    // 7. OpenClaw AI Chatbot Logic
+    // 7. OpenClaw AI Chatbot Logic (Deterministic Constraint Engine)
     const bot = document.getElementById('openclaw-bot');
     const botInput = document.getElementById('bot-input');
     const botMessages = document.getElementById('bot-messages');
     const closeBot = document.getElementById('close-bot');
+    const stateEl = document.getElementById('oc-state');
+    const alignEl = document.getElementById('oc-alignment');
+    const accessEl = document.getElementById('oc-access');
 
-    const addMessage = (text, type = 'bot') => {
+    let hasProvidedSchema = false;
+
+    const setStatus = (state, alignText, accessText) => {
+        stateEl.textContent = state;
+        if(alignText) alignEl.textContent = alignText;
+        if(accessText) accessEl.textContent = accessText;
+    };
+
+    const addMessage = (htmlContent, type = 'bot') => {
         const msg = document.createElement('div');
-        msg.className = type === 'bot' ? 'bot-msg' : 'bot-msg user-msg';
-        msg.textContent = type === 'bot' ? `OPENCLAW: ${text}` : `USER: ${text}`;
+        msg.className = type === 'bot' ? 'bot-msg output-block' : 'bot-msg user-msg';
+        msg.innerHTML = htmlContent;
         botMessages.appendChild(msg);
         botMessages.scrollTop = botMessages.scrollHeight;
+    };
+
+    const typeResponse = async (htmlContent, delay = 800) => {
+        setStatus('PROCESSING...');
+        addMessage('<span class="blink">SYSTEM: PROCESSING...</span>', 'bot');
+        const processingNode = botMessages.lastChild;
+        
+        return new Promise(resolve => {
+            setTimeout(() => {
+                processingNode.innerHTML = htmlContent;
+                resolve();
+            }, delay);
+        });
+    };
+
+    const processInput = async (input) => {
+        setStatus('VALIDATING...');
+        
+        if (!hasProvidedSchema) {
+            hasProvidedSchema = true;
+            await typeResponse(`INPUT DETECTED: <br>Unstructured Query.<br><br>SYSTEM REJECTED.<br>MALFORMED INPUT. REQUIRED SCHEMA NOT SATISFIED.<br><br>FORMAT REQUIRED:<br>ARR:<br>ACV:<br>SALES_CYCLE:<br>TEAM_STRUCTURE:<br>PRIMARY_CONSTRAINT:`);
+            setStatus('IDLE', 'LOW SIGNAL', 'RESTRICTED');
+            return;
+        }
+
+        const hasArr = /ARR:/i.test(input);
+        const hasAcv = /ACV:/i.test(input);
+        const hasCycle = /SALES_CYCLE:/i.test(input);
+
+        if (!hasArr && !hasAcv && !hasCycle) {
+            await typeResponse(`INPUT VALIDATION: FAILED.<br>No decision structure detected. Provide deal architecture.`);
+            setStatus('REJECTED', 'LOW SIGNAL', 'RESTRICTED');
+            return;
+        }
+
+        // Constraint Mapping Logic
+        let constraint = 'EXPANSION_FAILURE';
+        let diagnosis = 'Expansion not systemized at point-of-sale.';
+        let actions = `- Engineer usage, contract, and stakeholder triggers<br>- Embed logic directly into billing system<br>- Forward-model account expansion paths`;
+        let impact = `- NRR: +15-30%<br>- Expansion velocity: +2x`;
+
+        if (/velocity|cycle|slow|drag/i.test(input)) {
+            constraint = 'DEAL_VELOCITY';
+            diagnosis = 'Decision structure not encoded across stakeholders.';
+            actions = `- Map stakeholder decision hierarchy per deal<br>- Insert procurement pre-alignment step<br>- Encode influence graph in CRM`;
+            impact = `- Sales cycle: -30-45%<br>- Close probability: +15-25%`;
+        }
+
+        const responseHtml = `INPUT VALIDATION: SUCCESS<br><br>` + 
+            `PRIMARY CONSTRAINT:<br>${constraint}<br>(${diagnosis})<br><br>` +
+            `SYSTEM ACTIONS:<br>${actions}<br><br>` +
+            `EXPECTED IMPACT:<br>${impact}`;
+
+        await typeResponse(responseHtml, 1500);
+        setStatus('OUTPUT_READY', 'VERIFIED (0.85)', 'FULL');
+        
+        setTimeout(() => setStatus('IDLE'), 3000);
     };
 
     botInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && botInput.value.trim() !== '') {
             const input = botInput.value.trim();
-            addMessage(input, 'user');
+            addMessage(`> ${input}`, 'user');
             botInput.value = '';
-
-            setTimeout(() => {
-                const response = getBotResponse(input);
-                addMessage(response, 'bot');
-            }, 600);
+            processInput(input);
         }
     });
-
-    const getBotResponse = (input) => {
-        const query = input.toLowerCase();
-        if (query.includes('arr')) return "To scale from £4M to £20M, focus on deal velocity compression and ACV multipliers. ARR is the output of logic, not luck.";
-        if (query.includes('moat')) return "Moat density is engineered through data exclusivity and workflow integration. It is the only defense against commoditization.";
-        if (query.includes('hiring')) return "Hiring is decision-risk management. Use the Freelancer Playbook to filter for strategic integrators.";
-        if (query.includes('systems')) return "Structure beats speed. Autonomous infrastructure is the bridge to revenue-generating workflows.";
-        return "Inquiry noted. Strategic alignment required for deeper data access. Consult the V10 OS for further logic.";
-    };
 
     // 8. Alignment Gate Form Submission
     const alignmentForm = document.getElementById('alignment-form');
