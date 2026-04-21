@@ -83,6 +83,44 @@ function Home2() {
             </ul>
           </Col>
         </Row>
+        <Row style={{ justifyContent: "center", padding: "50px" }}>
+          <Col md={8} className="contact-form-v10">
+            <h1 style={{ fontSize: "2.1em", paddingBottom: "20px" }}>
+              <span className="purple">Initiate </span> Alignment
+            </h1>
+            <p>Strategic inquiry for Regtech & Revenue Systems integration.</p>
+            <form 
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const btn = e.target.querySelector('button');
+                btn.innerText = "VERIFYING...";
+                const formData = {
+                  name: "Fintech Portfolio Lead",
+                  email: "N/A",
+                  arr: e.target.arr.value,
+                  goal: e.target.goal.value
+                };
+                try {
+                  const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                  });
+                  const data = await res.json();
+                  btn.innerText = data.success ? "ALIGNMENT CONFIRMED" : "FAILED";
+                  if(data.success) e.target.reset();
+                } catch (err) {
+                  btn.innerText = "SYSTEM ERROR";
+                }
+              }}
+              style={{ display: "flex", flexDirection: "column", gap: "15px" }}
+            >
+              <input name="arr" placeholder="CURRENT SCALE / ARR" required style={{ background: "transparent", border: "1px solid #c770fe", color: "white", padding: "10px" }} />
+              <textarea name="goal" placeholder="STRATEGIC GOAL" required style={{ background: "transparent", border: "1px solid #c770fe", color: "white", padding: "10px", height: "100px" }} />
+              <button className="fork-btn-inner" type="submit" style={{ padding: "10px", cursor: "pointer" }}>Send Inquiry</button>
+            </form>
+          </Col>
+        </Row>
       </Container>
     </Container>
   );
